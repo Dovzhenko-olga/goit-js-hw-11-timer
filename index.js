@@ -1,17 +1,16 @@
-const daysEl = document.querySelector('span[data-value="days"]');
-const hoursEl = document.querySelector('span[data-value="hours"]');
-const minsEl = document.querySelector('span[data-value="mins"]');
-const secsEl = document.querySelector('span[data-value="secs"]');
 
 // new CountdownTimer({
-//   selector: '#timer-1',
-//   targetDate: new Date('Jul 17, 2019'),
-// });
-class CountdownTimer {
-  constructor({startTimer, targetDate}) {
-    this.targetDate = targetDate;
-    this.intervalId = null;
-    this.startTimer = startTimer;
+  //   selector: '#timer-1',
+  //   targetDate: new Date('Jul 17, 2019'),
+  // });
+  class CountdownTimer {
+    constructor({targetDate}) {
+      this.daysEl = document.querySelector('span[data-value="days"]');
+      this.hoursEl = document.querySelector('span[data-value="hours"]');
+      this.minsEl = document.querySelector('span[data-value="mins"]');
+      this.secsEl = document.querySelector('span[data-value="secs"]');
+      this.targetDate = targetDate;
+      this.intervalId = null;
   }
 
   start() {
@@ -19,7 +18,7 @@ class CountdownTimer {
     this.intervalId = setInterval(() => {
       const time = this.targetDate - Date.now();
       const timeLeft = this.getTimeComponents(time);
-      this.startTimer(timeLeft);
+      this.updateClockface(timeLeft);
     }, 1000);
    }
 
@@ -35,18 +34,18 @@ class CountdownTimer {
   pad(value) {
   return String(value).padStart(2, '0');
 }
+
+updateClockface({days, hours, mins, secs}) {
+  this.daysEl.textContent = `${days}`;
+  this.hoursEl.textContent = `${hours}`;
+  this.minsEl.textContent = `${mins}`;
+  this.secsEl.textContent = `${secs}`;
+}
 }
 
 const timer = new CountdownTimer({
   targetDate: new Date('Jul 17, 2021'),
-  startTimer: updateClockface,
 });
 
 
-function updateClockface({days, hours, mins, secs}) {
-  daysEl.textContent = `${days}`;
-  hoursEl.textContent = `${hours}`;
-  minsEl.textContent = `${mins}`;
-  secsEl.textContent = `${secs}`;
-}
 timer.start();
